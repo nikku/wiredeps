@@ -16,7 +16,8 @@ On [travis-ci](https://travis-ci.org) for instance you would simply add the foll
 
 ```
 before_install:
-  - npm install -g wiredeps && wiredeps --branch=$TRAVIS_BRANCH --tag=$TRAVIS_TAG
+  - npm install -g wiredeps
+  - wiredeps --branch=$TRAVIS_BRANCH --tag=$TRAVIS_TAG
 ```
 
 
