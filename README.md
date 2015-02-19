@@ -1,5 +1,7 @@
 # wiredeps
 
+[![Build Status](https://travis-ci.org/nikku/wiredeps.svg?branch=master)](https://travis-ci.org/nikku/wiredeps)
+
 Correctly build feature branches with snapshot dependencies across projects.
 
 
