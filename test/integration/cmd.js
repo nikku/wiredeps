@@ -2,7 +2,8 @@ var childProcess = require('child_process'),
     path = require('path'),
     fs = require('fs');
 
-var del = require('del');
+var del = require('del'),
+    touch = require('touch');
 
 var executable = path.resolve('bin/cmd.js');
 
@@ -208,6 +209,39 @@ describe('cmd', function() {
         expect(generated).to.contain('"version": "nikku/wiredeps-test#explicit"');
 
         done();
+      });
+
+    });
+
+
+    describe('--force', function() {
+
+      it('overriding existing npm-shrinkwrap.json', function(done) {
+
+        touch.sync('example/npm-shrinkwrap.json');
+
+        wiredeps([ '--branch=non-existing', '--cwd=example', '--force' ], function(err, result) {
+
+          if (err) {
+            return done(err);
+          }
+
+          expect(result.stderr).to.eql('');
+
+          expect(result.output).to.eql(
+            'trying to resolve dependencies from <non-existing>\n' +
+            'writing shrinkwrap descriptor\n' +
+            'done.\n');
+
+
+          var generated = readGenerated();
+
+          expect(generated).to.contain('"version": "0.0.0"');
+          expect(generated).to.contain('"version": "nikku/wiredeps-test"');
+          expect(generated).to.contain('"version": "nikku/wiredeps-test#explicit"');
+
+          done();
+        });
       });
 
     });
