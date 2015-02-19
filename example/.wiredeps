@@ -1,0 +1,14 @@
+{
+  "name": "wiredeps-example",
+  "version": "0.0.0",
+  "dependencies": {
+    "wiredeps-test": {
+      "version": "nikku/wiredeps-test",
+      "dependencies": {
+        "wiredeps-test": {
+          "version": "nikku/wiredeps-test#explicit"
+        }
+      }
+    }
+  }
+}

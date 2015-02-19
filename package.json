@@ -1,0 +1,47 @@
+{
+  "name": "wiredeps",
+  "version": "0.1.0",
+  "description": "Wire snapshot dependencies in projects for continuous integration builds",
+  "main": "index.js",
+  "bin": {
+    "wiredeps": "./bin/cmd.js"
+  },
+  "dependencies": {
+    "async": "^0.9.0",
+    "colors": "^1.0.3",
+    "commander": "^2.6.0",
+    "foreach": "^2.0.5",
+    "hosted-git-info": "^1.5.3",
+    "request": "^2.53.0",
+    "semver": "^4.3.0"
+  },
+  "devDependencies": {
+    "chai": "^2.0.0",
+    "del": "^1.1.1",
+    "mocha": "^2.1.0"
+  },
+  "scripts": {
+    "test": "mocha -r test/expect -c --recursive test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nikku/wiredeps.git"
+  },
+  "keywords": [
+    "dependencies",
+    "snapshot",
+    "git",
+    "continuous",
+    "integration",
+    "package.json",
+    "npm-shrinkwrap",
+    "shrinkwrap",
+    "wire"
+  ],
+  "author": "Nico Rehwaldt<git_nikku@nixis.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nikku/wiredeps/issues"
+  },
+  "homepage": "https://github.com/nikku/wiredeps"
+}

@@ -1,53 +1,22 @@
 # wiredeps
 
-Wire the latest snapshot dependencies or feature branches during continuous integration builds.
-
-
-## Configuration
-
-Specify which dependencies to resolve in a `.wiredeps` configuration file that is located in a project root.
-
-```json
-{
-  "dependencies": {
-    "a": "nikku/a",
-    "b": "nikku/b"
-  }
-}
-```
-
-
-## Setup
-
-Use the `wiredeps` command line to rewrite the `package.json` file to resolve the dependencies accordingly:
-
-```
-wiredeps
-```
-
-You may specify a feature branch, too:
-
-```
-wiredeps --branch=my-feature
-```
-
-This will attempt to resolve the dependencies from the given feature branch, too.
-
-This sets up the project __and__ all nested dependencies to load the configured projects via the specified snapshot location.
+Correctly build feature branches with snapshot dependencies across projects.
 
 
 ## How it works
 
-Wiredeps replaces `package.json` entries with their respective snapshot version.
+[wiredeps](https://github.com/nikku/wiredeps) generates a [shrinkwrap configuration file](https://docs.npmjs.com/cli/shrinkwrap) based on an existing `.wiredeps` configuration.
 
-It installs a hook to `node_modules/.hooks` to perform the same operation on nested dependencies, too.
+See [this example project](https://github.com/nikku/wiredeps/blob/master/example/) to learn more.
+
+
+## Integrate with Travis
+
+On [travis-ci](https://travis-ci.org) for instance you would simply add the following to your `travis.yml`.
 
 ```
-├── node_modules
-│   └── a
-│       └── node_modules
-│           └── b
-└── .wiredeps
+before_install:
+  - npm install -g wiredeps && wiredeps --branch=$TRAVIS_BRANCH --tag=$TRAVIS_TAG
 ```
 
 

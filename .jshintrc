@@ -1,0 +1,6 @@
+{
+  "node" : true,
+  "expr": true,
+  "maxlen" : 120,
+  "unused": "vars"
+}
