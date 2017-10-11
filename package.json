@@ -22,7 +22,8 @@
     "touch": "0.0.3"
   },
   "scripts": {
-    "test": "mocha -r test/expect -c --recursive test"
+    "test": "mocha -r test/expect -c --recursive test",
+    "all": "npm run test"
   },
   "repository": {
     "type": "git",
