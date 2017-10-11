@@ -137,13 +137,14 @@ describe('cmd', function() {
         expect(result.stderr).to.eql('');
 
         expect(result.output).to.eql(
+          'resolving dependencies from default branch <latest>\n' +
           'writing shrinkwrap descriptor\n' +
           'done.\n');
 
         var generated = readGenerated();
 
         expect(generated).to.contain('"version": "0.0.0"');
-        expect(generated).to.contain('"version": "nikku/wiredeps-test"');
+        expect(generated).to.contain('"version": "nikku/wiredeps-test#latest"');
 
         done();
       });
@@ -164,8 +165,9 @@ describe('cmd', function() {
         expect(result.output).to.eql(
           'running in folder example\n' +
           'loading descriptor from example\n' +
-          'trying to resolve dependencies from <other>\n' +
-          'resolving nikku/wiredeps-test via <other>\n' +
+          'trying to resolve dependencies from branch <other>\n' +
+          'falling back to default branch <latest>\n' +
+          'resolving nikku/wiredeps-test via <nikku/wiredeps-test#other>\n' +
           'skipping nikku/wiredeps-test#explicit, already specified\n' +
           'writing shrinkwrap descriptor\n' +
           'done.\n');
@@ -175,6 +177,72 @@ describe('cmd', function() {
 
         expect(generated).to.contain('"version": "0.0.0"');
         expect(generated).to.contain('"version": "nikku/wiredeps-test#other"');
+        expect(generated).to.contain('"version": "nikku/wiredeps-test#explicit"');
+
+        done();
+      });
+
+    });
+
+
+    it('branched shrinkwrap descriptor', function(done) {
+
+      wiredeps([ '--branch=other', '--cwd=example', '--verbose' ], function(err, result) {
+
+        if (err) {
+          return done(err);
+        }
+
+        expect(result.stderr).to.eql('');
+
+        expect(result.output).to.eql(
+          'running in folder example\n' +
+          'loading descriptor from example\n' +
+          'trying to resolve dependencies from branch <other>\n' +
+          'falling back to default branch <latest>\n' +
+          'resolving nikku/wiredeps-test via <nikku/wiredeps-test#other>\n' +
+          'skipping nikku/wiredeps-test#explicit, already specified\n' +
+          'writing shrinkwrap descriptor\n' +
+          'done.\n');
+
+
+        var generated = readGenerated();
+
+        expect(generated).to.contain('"version": "0.0.0"');
+        expect(generated).to.contain('"version": "nikku/wiredeps-test#other"');
+        expect(generated).to.contain('"version": "nikku/wiredeps-test#explicit"');
+
+        done();
+      });
+
+    });
+
+
+    it('default branched shrinkwrap descriptor', function(done) {
+
+      wiredeps([ '--default-branch=default', '--branch=foo', '--cwd=example', '--verbose' ], function(err, result) {
+
+        if (err) {
+          return done(err);
+        }
+
+        expect(result.stderr).to.eql('');
+
+        expect(result.output).to.eql(
+          'running in folder example\n' +
+          'loading descriptor from example\n' +
+          'trying to resolve dependencies from branch <foo>\n' +
+          'falling back to default branch <default>\n' +
+          'resolving nikku/wiredeps-test via <nikku/wiredeps-test#default>\n' +
+          'skipping nikku/wiredeps-test#explicit, already specified\n' +
+          'writing shrinkwrap descriptor\n' +
+          'done.\n');
+
+
+        var generated = readGenerated();
+
+        expect(generated).to.contain('"version": "0.0.0"');
+        expect(generated).to.contain('"version": "nikku/wiredeps-test#default"');
         expect(generated).to.contain('"version": "nikku/wiredeps-test#explicit"');
 
         done();
@@ -196,7 +264,9 @@ describe('cmd', function() {
         expect(result.output).to.eql(
           'running in folder example\n' +
           'loading descriptor from example\n' +
-          'trying to resolve dependencies from <non-existing>\n' +
+          'trying to resolve dependencies from branch <non-existing>\n' +
+          'falling back to default branch <latest>\n' +
+          'resolving nikku/wiredeps-test via <nikku/wiredeps-test#latest>\n' +
           'skipping nikku/wiredeps-test#explicit, already specified\n' +
           'writing shrinkwrap descriptor\n' +
           'done.\n');
@@ -205,7 +275,7 @@ describe('cmd', function() {
         var generated = readGenerated();
 
         expect(generated).to.contain('"version": "0.0.0"');
-        expect(generated).to.contain('"version": "nikku/wiredeps-test"');
+        expect(generated).to.contain('"version": "nikku/wiredeps-test#latest"');
         expect(generated).to.contain('"version": "nikku/wiredeps-test#explicit"');
 
         done();
@@ -229,7 +299,8 @@ describe('cmd', function() {
           expect(result.stderr).to.eql('');
 
           expect(result.output).to.eql(
-            'trying to resolve dependencies from <non-existing>\n' +
+            'trying to resolve dependencies from branch <non-existing>\n' +
+            'falling back to default branch <latest>\n' +
             'writing shrinkwrap descriptor\n' +
             'done.\n');
 
@@ -237,7 +308,7 @@ describe('cmd', function() {
           var generated = readGenerated();
 
           expect(generated).to.contain('"version": "0.0.0"');
-          expect(generated).to.contain('"version": "nikku/wiredeps-test"');
+          expect(generated).to.contain('"version": "nikku/wiredeps-test#latest"');
           expect(generated).to.contain('"version": "nikku/wiredeps-test#explicit"');
 
           done();
